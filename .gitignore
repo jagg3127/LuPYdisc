@@ -1,0 +1,7 @@
+# .gitignore
+
+# Ignore build directory
+build/
+
+# Ignore egg-info directory
+LuPYdisc.egg-info/

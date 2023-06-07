@@ -13,8 +13,9 @@ class _LuPYClient():
 
 
 
-        if WhenMentioned and command_prefix==():   command_prefix = commands.when_mentioned_or()
-        elif WhenMentioned:                        command_prefix = commands.when_mentioned_or(str(command_prefix))
+        if   WhenMentioned and command_prefix==():   command_prefix = commands.when_mentioned_or()
+        elif WhenMentioned:                          command_prefix = commands.when_mentioned_or(*command_prefix)
+        
         intents=intents.lower().strip()
         if intents == "all":
             intents=discord.Intents.all()

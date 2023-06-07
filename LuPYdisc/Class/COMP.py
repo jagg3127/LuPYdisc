@@ -103,15 +103,19 @@ async def find_brackets(tokens:list, ctx):
 async def run_funcs(text:str, key_pairs, ctx):
     from LuPYdisc.Class.LuPYClient import client
     full_text=""
+    Functions:FunctionHandler=client.LUPY_FUNCS
     for words in text.split():
         if words in key_pairs and words.replace("^^", "") not in func_RUNtype:
-            Functions:FunctionHandler=client.LUPY_FUNCS
             arg=""
             for word in key_pairs[words].split():
                 if word.startswith("##"):
                     word = str(await Functions.execute_functions(word.replace("##", "#^").strip(), None, ctx))
                 arg+=word+" "
             words = str(await Functions.execute_functions(words.replace("^^", "#^").strip(), arg.strip(), ctx))
+        
+        elif words.startswith("##"):
+            words = str(await Functions.execute_functions(words.replace("##", "#^").strip(), None, ctx))
+        
         full_text+=words+" "
     
     for words in text.split():
