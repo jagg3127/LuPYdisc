@@ -1,9 +1,11 @@
 from LuPYdisc.Class.COMP import format_command
 
-AC={}
 
 def add_command(Name:str, Group:str, Code:str):
-    from LuPYdisc.Class.LuPYClient import client, commands, asyncio
+    from LuPYdisc.Class.LuPYClient import _client, commands, asyncio
+
+    AC=_client.AC
+
     class main_bod:
         def __init__(self, bot):
             self.bot = bot
@@ -13,12 +15,13 @@ def add_command(Name:str, Group:str, Code:str):
             await format_command(Code, ctx)
 
     if Group in AC:
-        asyncio.run(client.remove_cog(Group))
         AC[Group][f"load{len(AC[Group])}"] = main_bod.load
     else:
         AC[Group] = {'__init__': main_bod.__init__, 'load': main_bod.load}
     try:
         COGS = type(Group, (commands.Cog,), {'__init__': main_bod.__init__, 'load': main_bod.load})
+        _client.add_cog(COGS(_client))
     except:
-        COGS = type(Group, (commands.Cog,), AC[Name])
-    client.add_cog(COGS(client))
+        _client.remove_cog(Group)
+        COGS = type(Group, (commands.Cog,), AC[Group])
+        _client.add_cog(COGS(_client))

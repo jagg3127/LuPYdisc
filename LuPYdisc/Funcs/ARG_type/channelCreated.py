@@ -60,10 +60,10 @@ async def channelCreated(args: str, Context):
             TIME = utc
 
     
-    from LuPYdisc.Class.LuPYClient import client
+    from LuPYdisc.Class.LuPYClient import _client
     try:
         int(ID)
-        channel = await client.fetch_channel(ID)
+        channel = await _client.fetch_channel(ID)
 
         desiredDateForm = format_datetime(channel.created_at, FORM, TIME)
         if desiredDateForm != "ERROR":

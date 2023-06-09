@@ -18,15 +18,18 @@ class Lexer:
         
         
 
-        for symbol in symbols:
-            self.lexer.add(symbol[0], symbol[1])
+        
         
         # accept spaces
         self.lexer.add('SPACE', ' ')
         self.lexer.add("NEWLINE", '\n')
 
 
-        self.lexer.add('Text', r'[a-zA-Z_][a-zA-Z0-9_]*')
+        for symbol in symbols:
+            self.lexer.add(symbol[0], symbol[1])
+
+        self.lexer.add('LINE_ARG', r"\*\*Line\d+")
+        self.lexer.add('Text', r'[^;\[\]]+')
 
 
     def get_lexer(self):
@@ -40,8 +43,18 @@ class Lexer:
 
 
 
-async def format_command(text:str, ctx=None):
-    from LuPYdisc.Class.LuPYClient import client
+async def token_file(line: int, ctx, client):
+    line=client.FILE_LIST_OF_LINES[line-1]
+    await format_command(line, ctx)
+
+
+
+
+
+async def format_command(text:str|dict, ctx=None):
+    from LuPYdisc.Class.LuPYClient import _client
+    if isinstance(text, dict):
+        return text
     
     for line in text.strip().split("\n"):
         lexer=Lexer().get_lexer()
@@ -51,6 +64,7 @@ async def format_command(text:str, ctx=None):
 
         token_set1=[]
         for token in tokens:
+            if token.gettokentype() == "LINE_ARG": await token_file(int(token.getstr().replace("**Line", "").strip()), ctx, _client)
             token_set1.append(
                 {
                     token.gettokentype(): token.getstr()
@@ -101,9 +115,10 @@ async def find_brackets(tokens:list, ctx):
     
         
 async def run_funcs(text:str, key_pairs, ctx):
-    from LuPYdisc.Class.LuPYClient import client
+    from LuPYdisc.Class.LuPYClient import _client
+    text=text.replace("Rbracket", "").replace("Lbracket", "").strip()
     full_text=""
-    Functions:FunctionHandler=client.LUPY_FUNCS
+    Functions:FunctionHandler=_client.LUPY_FUNCS
     for words in text.split():
         if words in key_pairs and words.replace("^^", "") not in func_RUNtype:
             arg=""
@@ -117,7 +132,7 @@ async def run_funcs(text:str, key_pairs, ctx):
             words = str(await Functions.execute_functions(words.replace("##", "#^").strip(), None, ctx))
         
         full_text+=words+" "
-    
+
     for words in text.split():
         if words in key_pairs and words.replace("^^", "") in func_RUNtype:
             arg2=""

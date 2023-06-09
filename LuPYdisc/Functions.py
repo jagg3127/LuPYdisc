@@ -8,8 +8,15 @@ events=[
     "OnReady"
 ]
 
+
+
 func_ARGtype=[
+    #--Built IN--
+    "_ARGS",
+
+    #--Channels--
     "channelCreated"
+
 ]
 
 func_RUNtype=[
@@ -18,29 +25,18 @@ func_RUNtype=[
 
 symbols=[
     ("Lbracket", r'\['),
-    ("Rbracket", r'\]'),
-]
-
-accepted_symbols=[
-    "SPACE",
-    "NEWLINE",
-    "Text"
+    ("Rbracket", r'\]')
 ]
 
 newline_char="*N*"
 
 
-def all_things(all):
-    all_functions.append(all)
-    accepted_symbols.append(all)
 
 
+def all_things(all): all_functions.append(all)
 
-def setup_symbols():
-    for symbol in symbols: accepted_symbols.append(symbol)
 
 def setup_functions():
-    setup_symbols()
 
     for nb    in no_bracket:   func_ARGtype.append(nb)
 
