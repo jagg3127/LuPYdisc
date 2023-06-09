@@ -7,7 +7,7 @@ async def Send(text: tuple, Context):
 
     try:
         channel = await _client.fetch_channel(int(ID))
-        message = text.replace(newline_char, "\n")
+        message = text.replace(newline_char+" ", "\n").replace(newline_char, "\n")
         await channel.send(message)
     except:
         raise SyntaxError("Can't send empty message!")

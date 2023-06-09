@@ -1,5 +1,5 @@
 from rply import LexerGenerator, ParserGenerator
-from LuPYdisc.Functions import all_functions, symbols, no_bracket, func_RUNtype
+from LuPYdisc.Functions import all_functions, symbols, no_bracket, func_RUNtype, newline_char
 from LuPYdisc.tools import FunctionHandler
 import asyncio
 
@@ -51,12 +51,24 @@ async def token_file(line: int, ctx, client):
 
 
 
-async def format_command(text:str|dict, ctx=None):
+def words_in_string(word_list, a_string):
+    for word in word_list:
+        if word in a_string:
+            return True
+    return False
+
+async def format_command(text:str, ctx=None):
     from LuPYdisc.Class.LuPYClient import _client
-    if isinstance(text, dict):
-        return text
-    
-    for line in text.strip().split("\n"):
+    stripped_command=[line.strip() for line in text.strip().split("\n") if line.strip() != '']; stripped_command.append("**")
+
+    for num, line in enumerate(stripped_command):
+        try:
+            if (not words_in_string(func_RUNtype, stripped_command[num+1]) and stripped_command[num+1].strip()!="**"):
+                line+=" "+stripped_command[num+1]
+                stripped_command.pop(num+1)
+        except:pass
+        if line == "**":continue
+
         lexer=Lexer().get_lexer()
         if line.strip() is None:continue
         tokens = lexer.lex(line.strip()+"\n")
