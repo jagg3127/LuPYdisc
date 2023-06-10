@@ -1,7 +1,4 @@
-from LuPYdisc.Functions      import all_functions
-from LuPYdisc.Funcs.ARG_type import *
-from LuPYdisc.Funcs.RUN_type import *
-from LuPYdisc.Funcs.Events   import *
+from LuPYdisc.Funcs.ALL    import OBJ_function
 
 class FunctionHandler:
 
@@ -9,9 +6,8 @@ class FunctionHandler:
 
     def register_functions(self):
         """#^"""
-        for line in all_functions:
-            function = eval(line)
-            self.functions["#^"+line] = function
+        for func in OBJ_function:
+            self.functions["#^"+func.__name__] = func
 
     async def execute_functions(self, keyword, args, context):
         """#^"""

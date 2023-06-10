@@ -1,5 +1,5 @@
 from rply import LexerGenerator, ParserGenerator
-from LuPYdisc.Functions import all_functions, symbols, no_bracket, func_RUNtype, newline_char
+from LuPYdisc.Funcs.ALL import all_functions, symbols, No_Bracket, Run
 from LuPYdisc.tools import FunctionHandler
 import asyncio
 
@@ -9,7 +9,7 @@ class Lexer:
 
     def _add_tokens(self):
 
-        for func in no_bracket:
+        for func in No_Bracket:
             self.lexer.add("##"+func, r'{}'.format(func))
         
         # functions
@@ -63,7 +63,7 @@ async def format_command(text:str, ctx=None):
 
     for num, line in enumerate(stripped_command):
         try:
-            if (not words_in_string(func_RUNtype, stripped_command[num+1]) and stripped_command[num+1].strip()!="**"):
+            if (not words_in_string(Run, stripped_command[num+1]) and stripped_command[num+1].strip()!="**"):
                 line+=" "+stripped_command[num+1]
                 stripped_command.pop(num+1)
         except:pass
@@ -132,7 +132,7 @@ async def run_funcs(text:str, key_pairs, ctx):
     full_text=""
     Functions:FunctionHandler=_client.LUPY_FUNCS
     for words in text.split():
-        if words in key_pairs and words.replace("^^", "") not in func_RUNtype:
+        if words in key_pairs and words.replace("^^", "") not in Run:
             arg=""
             for word in key_pairs[words].split():
                 if word.startswith("##"):
@@ -146,7 +146,7 @@ async def run_funcs(text:str, key_pairs, ctx):
         full_text+=words+" "
 
     for words in text.split():
-        if words in key_pairs and words.replace("^^", "") in func_RUNtype:
+        if words in key_pairs and words.replace("^^", "") in Run:
             arg2=""
             for word in key_pairs[words].split():
                 if word.startswith("##"):

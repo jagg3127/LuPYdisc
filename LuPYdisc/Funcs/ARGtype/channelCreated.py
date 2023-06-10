@@ -7,7 +7,7 @@ timezones = (
     timezone('US/Pacific')
 )
 
-def format_datetime(datetime: D_T, FORM: str, TIMEZONE):
+def _format_datetime(datetime: D_T, FORM: str, TIMEZONE):
     UnformatedDatetime = datetime.astimezone(TIMEZONE)
     UnformatedDatetimeTuple = (
         UnformatedDatetime.year, UnformatedDatetime.month, UnformatedDatetime.day, UnformatedDatetime.hour, UnformatedDatetime.minute,
@@ -65,7 +65,7 @@ async def channelCreated(args: str, Context):
         int(ID)
         channel = await _client.fetch_channel(ID)
 
-        desiredDateForm = format_datetime(channel.created_at, FORM, TIME)
+        desiredDateForm = _format_datetime(channel.created_at, FORM, TIME)
         if desiredDateForm != "ERROR":
             return desiredDateForm
         else:

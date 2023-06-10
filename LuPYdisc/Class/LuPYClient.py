@@ -1,17 +1,16 @@
-from LuPYdisc.Functions import setup_functions
 from discord.ext import commands
 import discord
 import asyncio
 from LuPYdisc.tools import FunctionHandler
 from LuPYdisc.Class.help import Help
 from LuPYdisc.Class.LUPY_READER import run_file
+from LuPYdisc.Funcs.ALL import newline_char
 
 global _client
 
 class _LuPYClient():
     def __init__(self,  command_prefix:tuple, WhenMentioned:bool=False, intents:str="default", activity=None, case_sensitive:bool=True):
         global _client
-        setup_functions()
 
 
 
@@ -65,9 +64,10 @@ def LuPYClient(*command_prefix:str|list, WhenMentioned:bool=False, intents:str="
     _LuPYClient(command_prefix=command_prefix, WhenMentioned=WhenMentioned, intents=intents, activity=activity, case_sensitive=case_sensitive)
     
     
-    _client.LUPY_FUNCS = Functions
-    _client.help       = help()
-    _client.AC         = {}
+    _client.newline_char = newline_char
+    _client.LUPY_FUNCS   = Functions
+    _client.help         = help()
+    _client.AC           = {}
 
     Functions.register_functions()
     return Client()
