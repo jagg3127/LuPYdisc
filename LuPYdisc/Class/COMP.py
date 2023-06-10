@@ -1,5 +1,5 @@
 from rply import LexerGenerator, ParserGenerator
-from LuPYdisc.Funcs.ALL import all_functions, symbols, No_Bracket, Run
+from LuPYdisc.Funcs import all_functions, symbols, No_Bracket, Run
 from LuPYdisc.tools import FunctionHandler
 import asyncio
 

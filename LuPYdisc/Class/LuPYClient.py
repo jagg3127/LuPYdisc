@@ -4,7 +4,7 @@ import asyncio
 from LuPYdisc.tools import FunctionHandler
 from LuPYdisc.Class.help import Help
 from LuPYdisc.Class.LUPY_READER import run_file
-from LuPYdisc.Funcs.ALL import newline_char
+from LuPYdisc.Funcs import newline_char
 
 global _client
 

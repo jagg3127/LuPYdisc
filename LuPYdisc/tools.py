@@ -1,4 +1,4 @@
-from LuPYdisc.Funcs.ALL    import OBJ_function
+from LuPYdisc.Funcs    import OBJ_function
 
 class FunctionHandler:
 
