@@ -10,6 +10,7 @@ Args           = [getattr(_ARGtype, f).__name__  for f in    _ARGS if not f.star
 Run            = [getattr(_RUNtype, f).__name__  for f in     _RUN if not f.startswith("_")]
 all_functions  = [      *Events,    *No_Bracket,    *Args,    *Run                         ]
 
+Args.append(*No_Bracket)
 
 _Events        = [getattr(_EVENT ,  f)  for f in  _EVENTS if not f.startswith("_")]
 _No_Bracket    = [getattr(_NO_ARG,  f)  for f in   _XARGX if not f.startswith("_")]
